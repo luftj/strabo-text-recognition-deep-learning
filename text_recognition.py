@@ -6,6 +6,7 @@ import json
 from tesserocr import PyTessBaseAPI, PSM, OEM
 import numpy
 from PIL import Image
+import pytesseract
 
 def text_recognition(input_image, input_json):
     
@@ -24,14 +25,14 @@ def text_recognition(input_image, input_json):
         coordinates = geometry["coordinates"]
         box = coordinates[0]
     
-        x1 = min(box, key=lambda x:x[0])
-        x1 = x1[0]
-        x2 = max(box, key=lambda x:x[0])
-        x2 = x2[0]
         y1 = max(box, key=lambda x:x[1])
         y1 = -1*y1[1]
         y2 = min(box, key=lambda x:x[1])
         y2 = -1*y2[1]
+        x1 = min(box, key=lambda x:x[0])
+        x1 = x1[0]-10#(abs(y2)-abs(y1))
+        x2 = max(box, key=lambda x:x[0])
+        x2 = x2[0]+10#(abs(y2)-abs(y1))
         if x1<0 or x2<0 or y1<0 or y2<0: 
             continue
         part_image = img[y1:y2, x1:x2, :]
@@ -40,10 +41,14 @@ def text_recognition(input_image, input_json):
         text = ""
         score = 0
     
-        with PyTessBaseAPI(path='/usr/share/tesseract-ocr/tessdata/',psm=PSM.AUTO_OSD, oem=OEM.TESSERACT_ONLY) as api:
+        with PyTessBaseAPI(path='/usr/share/tesseract-ocr/tessdata/',psm=PSM.SINGLE_LINE, lang='deu') as api:
+            api.SetVariable("psm", "8")
+            api.SetVariable("tessedit_char_whitelist", "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
             api.SetImage(new)
             api.Recognize()
             text = api.GetUTF8Text()
+            #text = pytesseract.image_to_string(new,config="-l deu --psm 8 -c tessedit_char_whitelist=abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ --oem 1")
+            print(text)#.encode("utf-8"))
             score = api.AllWordConfidences()
         
         feat["NameBeforeDictionary"] = text

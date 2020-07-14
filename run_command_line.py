@@ -178,6 +178,7 @@ def draw_illu(illu, rst):
 
 
 def save_result(image_name, img, rst):
+    image_name = image_name.split("/")[-1]
     image_val = image_name.split(".")[0]
     import jsonReader
     import merge_rectangles
