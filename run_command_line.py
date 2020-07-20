@@ -218,8 +218,8 @@ def save_result(image_name, img, rst):
     print(os.path.join(dirpath, 'result.png'))
     print(os.path.join(dirpath, 'geoJson1.json'))
     
-    print("python3 text_recognition.py -i " + os.path.join(dirpath, 'input.png') +" -j " + os.path.join(dirpath, 'geoJson1.json') + " -o " + os.path.join(dirpath, 'final.txt'))
-    os.system("python3 text_recognition.py -i " + os.path.join(dirpath, 'input.png') +" -j " + os.path.join(dirpath, 'geoJson1.json') + " -o " + os.path.join(dirpath, 'final.txt'))    
+    # print("python3 text_recognition.py -i " + os.path.join(dirpath, 'input.png') +" -j " + os.path.join(dirpath, 'geoJson1.json') + " -o " + os.path.join(dirpath, 'final.txt'))
+    # os.system("python3 text_recognition.py -i " + os.path.join(dirpath, 'input.png') +" -j " + os.path.join(dirpath, 'geoJson1.json') + " -o " + os.path.join(dirpath, 'final.txt'))    
     #os.system("mkdir /opt/straboweb")
     #path_current = "/opt/straboweb"
     #os.makedirs(path_current)
